@@ -1,0 +1,395 @@
+WindowManager:
+    MainWindow:
+    InvestmentWindow:
+    MortgageWindow:
+
+# =========================================================== #
+#                         MAIN WINDOW                         #
+# =========================================================== #
+<MainWindow>:
+
+    name: "main"
+
+    # Display a border and logo
+    FloatLayout:
+        Label:
+            text: "Forshaw's Financial\nServices"
+            halign: "center"
+            pos_hint: {'center_x': 0.5,'center_y': 0.92}
+            size_hint: 1,0.4
+            font_size: 32
+            bold: True
+            color: 230/255,194/255,1/255,1
+            font_name: "Tcm_____"
+
+            background_color:(28/255,141/255,0/255,1)
+
+            canvas.before:
+                Color:
+                    rgba: self.background_color
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+        Image:
+            source: "logo.png"
+            keep_ratio: True
+            size_hint: 0.18,0.18
+            pos_hint: {'center_x': 0.5,'center_y': 0.8}
+        
+    # Provides instructions to the user
+        Label:
+            font_size: 14
+            color: 64/255,72/255,62/255,1
+            pos_hint: {'center_x': 0.5,'center_y': 0.45}
+            halign: "center"
+            text:
+                """Welcome to Forshaws Financial Services\
+                \nCalculator App\
+                \n\nSelect the calulation you wish to perform:\
+                \n\nInvestments Returns:\
+                \nCalculate your income return from an\ninvestment.\
+                \n\nMortgage Costs\
+                \nCalculate the monthly cost from a\nmortgage bond."""
+
+    # Create a button which goes to the investment page
+        RoundedButton:
+
+            # Design
+            text: "Investments"
+            size_hint: 0.45, 0.1
+            pos_hint: {'center_x': 0.25,'center_y': 0.1}
+            color: 0.95,0.95,0.95,1
+            font_sizes: 16
+
+            # Functionality
+            on_release:
+                app.root.current= "investment"
+                root.manager.transition.direction = "right"
+
+        # Creates a button which goes to the mortgages page
+        RoundedButton:
+
+            # Design
+            text: "Mortgages"
+            size_hint: 0.45, 0.1
+            pos_hint: {'center_x': 0.75,'center_y': 0.1}
+            color: 0.95,0.95,0.95,1
+            font_size: 16  
+
+            # Functionality
+            on_release:
+                app.root.current= "mortgage"   
+                root.manager.transition.direction = "left"      
+
+# 
+<RoundedButton@Button>
+    background_color: 0,0,0,0
+    background_normal: ''
+    canvas.before:
+        Color:
+            rgba: 49/255,71/255,138/255,1
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [10]
+
+# ============================================================ #
+#                      INVESTMENT WINDOW                       #
+# ============================================================ #
+<InvestmentWindow>
+    name: "investment"
+
+    # Set global variables
+    deposit: deposit
+    years: years
+    invest_rate: invest_rate
+
+    # Set the heading border
+    Label:
+        text: "Investments Calculator"
+        halign: "center"
+        pos_hint: {'center_x': 0.5,'center_y': 0.92}
+        size_hint: 1,0.4
+        font_size: 32
+        bold: True
+        color: 230/255,194/255,1/255,1
+        font_name: "Tcm_____"
+
+        background_color:(28/255,141/255,0/255,1)
+
+        canvas.before:
+            Color:
+                rgba: self.background_color
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+    Image:
+        source: "logo.png"
+        keep_ratio: True
+        size_hint: 0.18,0.18
+        pos_hint: {'center_x': 0.5,'center_y': 0.8}
+
+    # Display instructions to user
+
+    Label:
+        text: "Please enter the information required below:"
+        font_size: 14
+        color: 64/255,72/255,62/255,1
+        pos_hint: {'center_x': 0.5,'center_y': 0.68}
+        halign: "center"
+
+    # User inputs the amount they wish to deposit
+
+    Label:
+        text: "Enter the amount you wish to deposit (£):"
+        font_size: 14
+        color: 64/255,72/255,62/255,1
+        pos_hint: {'center_x': 0.5,'center_y': 0.6}
+        halign: "center"
+
+    TextInput:
+        id: deposit
+        text: "0.00"
+        input_filter: 'float'
+        multiline: False
+        size_hint: 0.2,0.06
+        pos_hint: {'center_x': 0.5,'center_y': 0.53}
+        font_size: 12
+
+    # User inputs the interest rate
+    Label:
+        text: "Enter the interest rate (%)"
+        font_size: 14
+        color: 64/255,72/255,62/255,1
+        pos_hint: {'center_x': 0.5,'center_y': 0.47}
+        halign: "center"
+
+    TextInput:
+        id: invest_rate
+        text: "0.00"
+        input_filter: "float"
+        multiline: False
+        size_hint: 0.2,0.06
+        pos_hint: {'center_x': 0.5,'center_y': 0.4}
+        font_size: 12
+    
+    # User inputs the years
+    Label:
+        text: "Select the number of years you wish to invest:"
+        font_size: 14
+        color: 64/255,72/255,62/255,1
+        pos_hint: {'center_x': 0.5,'center_y': 0.32}
+        halign: "center"
+
+    # As it is a integers we can add functionality to using buttons
+    # to increase and decrease the int value
+
+    # Display the integer
+    TextInput:
+        id: years
+        text: '0'
+        multiline: False
+        readonly: True
+        size_hint: 0.1,0.06
+        pos_hint: {'center_x': 0.5,'center_y': 0.25}
+        font_size: 12
+        halign: 'center'
+
+    # Create a plus button and add functionality
+    Button:
+        text: '+'
+        size_hint: 0.09,0.058
+        pos_hint: {'center_x': 0.618, 'center_y': 0.25}
+        font_size: 12
+        bold: True
+        halign: 'center'
+        background_color: 49/255,71/255,138/255,1
+        background_normal: ''
+
+        on_press: root.increase_year()
+
+    # Create a minus button and add functionality
+    Button:
+        text: '-'
+        size_hint: 0.09,0.058
+        pos_hint: {'center_x': 0.38, 'center_y': 0.25}
+        font_size: 12
+        bold: True
+        halign: 'center'
+        background_color: 49/255,71/255,138/255,1
+        background_normal: ''
+
+        on_press: root.decrease_year()
+
+    # Create a back button to return to home screen
+
+    RoundedButton:
+        text: "Go Back"
+        size_hint: 0.45, 0.1
+        pos_hint: {'center_x': 0.75,'center_y': 0.1}
+        color: 0.95,0.95,0.95,1
+        font_size: 16  
+
+        on_release:
+            app.root.current= "main"
+            root.manager.transition.direction = "left"
+
+    # Create a sumbit button to calculate the investments
+
+    RoundedButton:
+        text: "Submit"
+        size_hint: 0.45, 0.1
+        pos_hint: {'center_x': 0.25,'center_y': 0.1}
+        color: 0.95,0.95,0.95,1
+        font_size: 16
+
+        on_press: root.show_interest()
+
+# ============================================================ #
+#                      MORTGAGE WINDOW                         #
+# ============================================================ #
+
+<MortgageWindow>
+
+    name: "mortgage"
+
+    # Global values
+    value: value
+    bond_rate: bond_rate
+    months: months
+
+    # Create heading border
+    Label:
+        text: "Mortgage Calculator"
+        halign: "center"
+        pos_hint: {'center_x': 0.5,'center_y': 0.92}
+        size_hint: 1,0.4
+        font_size: 32
+        bold: True
+        color: 230/255,194/255,1/255,1
+        font_name: "Tcm_____"
+
+        background_color:(28/255,141/255,0/255,1)
+
+        canvas.before:
+            Color:
+                rgba: self.background_color
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+    Image:
+        source: "logo.png"
+        keep_ratio: True
+        size_hint: 0.18,0.18
+        pos_hint: {'center_x': 0.5,'center_y': 0.8}
+
+    # Display instructions to the user
+    Label:
+        text: "Please enter the information required below:"
+        font_size: 14
+        color: 64/255,72/255,62/255,1
+        pos_hint: {'center_x': 0.5,'center_y': 0.68}
+        halign: "center"
+
+    # User inputs the value of the house
+    Label:
+        text: "Enter the present value of the house (£):"
+        font_size: 14
+        color: 64/255,72/255,62/255,1
+        pos_hint: {'center_x': 0.5,'center_y': 0.6}
+        halign: "center"
+
+    TextInput:
+        id: value
+        text: "0.00"
+        input_filter: "float"
+        multiline: False
+        size_hint: 0.2,0.06
+        pos_hint: {'center_x': 0.5,'center_y': 0.53}
+        font_size: 12
+
+    # User inputs the interest rate of the house
+    Label:
+        text: "Enter the interest rate (%)"
+        font_size: 14
+        color: 64/255,72/255,62/255,1
+        pos_hint: {'center_x': 0.5,'center_y': 0.47}
+        halign: "center"
+
+    TextInput:
+        text: "0.00"
+        id: bond_rate
+        input_filter: "float"
+        multiline: False
+        size_hint: 0.2,0.06
+        pos_hint: {'center_x': 0.5,'center_y': 0.4}
+        font_size: 12
+
+    # Select the repayment months user +/- buttons
+    Label:
+        text: "Select the number of repayment months:"
+        font_size: 14
+        color: 64/255,72/255,62/255,1
+        pos_hint: {'center_x': 0.5,'center_y': 0.32}
+        halign: "center"
+
+    # Display the number of months
+    TextInput:
+        id: months
+        text: '0'
+        multiline: False
+        readonly: True
+        size_hint: 0.1,0.06
+        pos_hint: {'center_x': 0.5,'center_y': 0.25}
+        font_size: 12
+        halign: 'center'
+
+    # Create a plus button to increase the number of months
+    Button:
+        text: '+'
+        size_hint: 0.09,0.058
+        pos_hint: {'center_x': 0.618, 'center_y': 0.25}
+        font_size: 12
+        bold: True
+        halign: 'center'
+        background_color: 49/255,71/255,138/255,1
+        background_normal: ''
+
+        on_press: root.increase_month()
+
+    # Create a button to decrease the number of months
+    Button:
+        text: '-'
+        size_hint: 0.09,0.058
+        pos_hint: {'center_x': 0.38, 'center_y': 0.25}
+        font_size: 12
+        bold: True
+        halign: 'center'
+        background_color: 49/255,71/255,138/255,1
+        background_normal: ''
+
+        on_press: root.decrease_month()
+
+    # Create a back button
+    RoundedButton:
+        text: "Go Back"
+        size_hint: 0.45, 0.1
+        pos_hint: {'center_x': 0.25,'center_y': 0.1}
+        color: 0.95,0.95,0.95,1
+        font_size: 16  
+
+        on_release:
+            app.root.current= "main"
+            root.manager.transition.direction = "right"
+
+    # Create a submit button
+    RoundedButton:
+        text: "Submit"
+        size_hint: 0.45, 0.1
+        pos_hint: {'center_x': 0.75,'center_y': 0.1}
+        color: 0.95,0.95,0.95,1
+        font_size: 16
+
+        on_press: root.show_bond()
